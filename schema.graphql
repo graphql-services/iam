@@ -1,0 +1,55 @@
+type User {
+  id: ID!
+  policyString: String!
+  groups: [Group!]!
+  policies: [Policy!]!
+}
+
+type Group {
+  name: String!
+  users: [User!]!
+  policies: [Policy!]!
+}
+
+type Policy {
+  name: String!
+  value: String
+  users: [User!]!
+  groups: [Group!]!
+}
+
+type query {
+  getUser(id: ID!): User!
+  getUsers(q: String, limit: Int, ofset: Int): [User!]!
+  getGroup(id: ID!): Group!
+  getGroups(q: String, limit: Int, offset: Int): [Group!]!
+  getPolicy(id: ID!): Policy!
+  getPolicies(q: String, limit: Int, offset: Int): [Policy!]!
+}
+
+input UserInput {
+  groupIds: [ID!]
+  policyIds: [ID!]
+}
+input GroupInput {
+  userIds: [ID!]
+  policyIds: [ID!]
+}
+input PolicyInput {
+  userIds: [ID!]
+  groupIds: [ID!]
+}
+
+type mutation {
+  createUser(id: ID!, input: UserInput): User!
+  updateUser(id: ID!, input: UserInput): User!
+  deleteUser(id: ID!): User!
+
+  createGroup(id: ID!, input: GroupInput): Group!
+  updateGroup(id: ID!, input: GroupInput): Group!
+  deleteGroup(id: ID!): Group!
+
+  createPolicy(id: ID!, input: PolicyInput): Policy!
+  updatePolicy(id: ID!, input: PolicyInput): Policy!
+  deletePolicy(id: ID!): Policy!
+}
